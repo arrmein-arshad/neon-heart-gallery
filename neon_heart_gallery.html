@@ -1,0 +1,267 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300;400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body,#wrap{background:#05020d;min-height:100vh;font-family:'Josefin Sans',sans-serif}
+#wrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:32px 16px 28px;min-height:480px}
+
+#stage{position:relative;width:100%;max-width:560px;height:300px;margin-bottom:24px;display:flex;align-items:center;justify-content:center}
+#stage canvas{position:absolute;inset:0;width:100%;height:100%}
+
+.label-area{text-align:center;margin-bottom:22px;min-height:42px}
+.heart-label{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:#888;transition:color .4s}
+.heart-label.active{color:#eee}
+
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:560px}
+
+.hbtn{
+  position:relative;
+  border:none;background:transparent;
+  padding:10px 22px;
+  font-family:'Josefin Sans',sans-serif;
+  font-weight:300;font-size:9px;
+  letter-spacing:5px;text-transform:uppercase;
+  cursor:pointer;
+  border-radius:2px;
+  transition:transform .18s;
+  outline:none;
+  overflow:visible;
+}
+.hbtn:active{transform:scale(.95)}
+.hbtn::before{
+  content:'';
+  position:absolute;inset:0;
+  border-radius:2px;
+  opacity:.18;
+  transition:opacity .3s;
+}
+.hbtn:hover::before{opacity:.32}
+.hbtn .label{position:relative;z-index:1}
+.hbtn .border-anim{
+  position:absolute;inset:-1px;
+  border-radius:3px;
+  pointer-events:none;
+}
+
+/* each neon style */
+.btn-cyan  {color:#00fff7;box-shadow:0 0 10px rgba(0,255,247,.25),inset 0 0 10px rgba(0,255,247,.05)}
+.btn-cyan::before{background:#00fff7}
+.btn-cyan .border-anim{border:1px solid rgba(0,255,247,.55);box-shadow:0 0 8px rgba(0,255,247,.4),inset 0 0 8px rgba(0,255,247,.1)}
+
+.btn-magenta{color:#ff2d78;box-shadow:0 0 10px rgba(255,45,120,.25),inset 0 0 10px rgba(255,45,120,.05)}
+.btn-magenta::before{background:#ff2d78}
+.btn-magenta .border-anim{border:1px solid rgba(255,45,120,.55);box-shadow:0 0 8px rgba(255,45,120,.4),inset 0 0 8px rgba(255,45,120,.1)}
+
+.btn-gold  {color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,.25),inset 0 0 10px rgba(255,215,0,.05)}
+.btn-gold::before{background:#ffd700}
+.btn-gold .border-anim{border:1px solid rgba(255,215,0,.55);box-shadow:0 0 8px rgba(255,215,0,.4),inset 0 0 8px rgba(255,215,0,.1)}
+
+.btn-violet{color:#bf5fff;box-shadow:0 0 10px rgba(191,95,255,.25),inset 0 0 10px rgba(191,95,255,.05)}
+.btn-violet::before{background:#bf5fff}
+.btn-violet .border-anim{border:1px solid rgba(191,95,255,.55);box-shadow:0 0 8px rgba(191,95,255,.4),inset 0 0 8px rgba(191,95,255,.1)}
+
+.btn-lime  {color:#7fff00;box-shadow:0 0 10px rgba(127,255,0,.25),inset 0 0 10px rgba(127,255,0,.05)}
+.btn-lime::before{background:#7fff00}
+.btn-lime .border-anim{border:1px solid rgba(127,255,0,.55);box-shadow:0 0 8px rgba(127,255,0,.4),inset 0 0 8px rgba(127,255,0,.1)}
+
+.btn-orange{color:#ff7b00;box-shadow:0 0 10px rgba(255,123,0,.25),inset 0 0 10px rgba(255,123,0,.05)}
+.btn-orange::before{background:#ff7b00}
+.btn-orange .border-anim{border:1px solid rgba(255,123,0,.55);box-shadow:0 0 8px rgba(255,123,0,.4),inset 0 0 8px rgba(255,123,0,.1)}
+
+.btn-white {color:#ffffff;box-shadow:0 0 10px rgba(255,255,255,.2),inset 0 0 10px rgba(255,255,255,.04)}
+.btn-white::before{background:#ffffff}
+.btn-white .border-anim{border:1px solid rgba(255,255,255,.45);box-shadow:0 0 8px rgba(255,255,255,.35),inset 0 0 8px rgba(255,255,255,.08)}
+</style>
+
+<div id="wrap">
+  <div id="stage">
+    <canvas id="gc"></canvas>
+    <canvas id="hc"></canvas>
+  </div>
+  <div class="label-area">
+    <p class="heart-label" id="lbl">— press a button to draw a glowing heart —</p>
+  </div>
+  <div class="btn-row">
+    <button class="hbtn btn-cyan"    onclick="drawHeart('cyan')"   ><div class="border-anim"></div><span class="label">♡ Electric Blue</span></button>
+    <button class="hbtn btn-magenta" onclick="drawHeart('magenta')"><div class="border-anim"></div><span class="label">♡ Neon Rose</span></button>
+    <button class="hbtn btn-gold"    onclick="drawHeart('gold')"   ><div class="border-anim"></div><span class="label">♡ Golden Glow</span></button>
+    <button class="hbtn btn-violet"  onclick="drawHeart('violet')" ><div class="border-anim"></div><span class="label">♡ Cosmic Violet</span></button>
+    <button class="hbtn btn-lime"    onclick="drawHeart('lime')"   ><div class="border-anim"></div><span class="label">♡ Neon Lime</span></button>
+    <button class="hbtn btn-orange"  onclick="drawHeart('orange')" ><div class="border-anim"></div><span class="label">♡ Solar Flare</span></button>
+    <button class="hbtn btn-white"   onclick="drawHeart('white')"  ><div class="border-anim"></div><span class="label">♡ Pure Light</span></button>
+  </div>
+</div>
+
+<script>
+const palettes={
+  cyan:   {stroke:'#00fff7',glow:'rgba(0,255,247',  fill:'rgba(0,255,247',   name:'Electric Blue',  inner:'#001a19'},
+  magenta:{stroke:'#ff2d78',glow:'rgba(255,45,120', fill:'rgba(255,45,120',  name:'Neon Rose',      inner:'#1a0010'},
+  gold:   {stroke:'#ffd700',glow:'rgba(255,215,0',  fill:'rgba(255,215,0',   name:'Golden Glow',    inner:'#1a1400'},
+  violet: {stroke:'#bf5fff',glow:'rgba(191,95,255', fill:'rgba(191,95,255',  name:'Cosmic Violet',  inner:'#0e0018'},
+  lime:   {stroke:'#7fff00',glow:'rgba(127,255,0',  fill:'rgba(127,255,0',   name:'Neon Lime',      inner:'#051a00'},
+  orange: {stroke:'#ff7b00',glow:'rgba(255,123,0',  fill:'rgba(255,123,0',   name:'Solar Flare',    inner:'#1a0800'},
+  white:  {stroke:'#ffffff',glow:'rgba(255,255,255',fill:'rgba(255,255,255', name:'Pure Light',     inner:'#0d0d0d'},
+};
+
+const gc=document.getElementById('gc');
+const hc=document.getElementById('hc');
+const gx=gc.getContext('2d');
+const hx=hc.getContext('2d');
+const lbl=document.getElementById('lbl');
+
+let W,H,cx,cy,HS;
+let prog=0,currentKey=null,raf=null,phase='idle';
+let particles=[];
+
+function resize(){
+  const stage=document.getElementById('stage');
+  W=gc.width=hc.width=stage.offsetWidth;
+  H=gc.height=hc.height=stage.offsetHeight;
+  cx=W/2; cy=H/2+10; HS=Math.min(W,H)*0.36;
+}
+resize(); window.addEventListener('resize',()=>{resize();if(currentKey)startDraw(currentKey)});
+
+/* background particles */
+let bgParts=[];
+function mkBg(){bgParts=[];for(let i=0;i<60;i++)bgParts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.8+.2,a:Math.random(),pa:Math.random()*Math.PI*2,ps:Math.random()*.008+.003,vx:(Math.random()-.5)*.15,vy:(Math.random()-.5)*.15})}
+mkBg();
+
+/* heart parametric */
+function heartPt(t){
+  return{
+    x:cx+HS*16*Math.pow(Math.sin(t),3)/16,
+    y:cy-HS*(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))/13
+  };
+}
+
+let pts=[];
+function buildPts(){pts=[];for(let i=0;i<=400;i++){let t=(i/400)*Math.PI*2;pts.push(heartPt(t))}}
+buildPts();
+
+/* spark particles */
+function spawnSparks(p,col){
+  let c=palettes[col];
+  for(let i=0;i<6;i++){
+    let ang=Math.random()*Math.PI*2;
+    let sp=Math.random()*2.5+1;
+    particles.push({x:p.x,y:p.y,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,life:1,col:c.stroke,r:Math.random()*2+1});
+  }
+}
+
+function drawBg(t){
+  gx.fillStyle='rgba(5,2,13,0.55)';
+  gx.fillRect(0,0,W,H);
+  bgParts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.pa+=p.ps;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    let a=p.a*(0.3+0.6*Math.sin(p.pa));
+    gx.beginPath();gx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    gx.fillStyle=`rgba(120,100,200,${a*0.5})`;gx.fill();
+  });
+}
+
+function drawHeart(key){
+  if(raf)cancelAnimationFrame(raf);
+  currentKey=key;
+  particles=[];
+  prog=0;phase='draw';
+  lbl.textContent=`♡ ${palettes[key].name}`;
+  lbl.className='heart-label active';
+  loop();
+}
+
+let lastPulse=0;
+function loop(ts=0){
+  raf=requestAnimationFrame(loop);
+  const p=palettes[currentKey];
+
+  drawBg(ts);
+
+  /* sparks */
+  hx.clearRect(0,0,W,H);
+  particles=particles.filter(s=>{
+    s.x+=s.vx;s.y+=s.vy;s.life-=.035;s.vy+=.04;
+    if(s.life<=0)return false;
+    hx.beginPath();hx.arc(s.x,s.y,s.r*s.life,0,Math.PI*2);
+    hx.fillStyle=s.col+Math.round(s.life*220).toString(16).padStart(2,'0');
+    hx.fill();return true;
+  });
+
+  if(phase==='draw'){
+    prog=Math.min(prog+.012,1);
+    let cnt=Math.floor(prog*pts.length);
+
+    /* glow layers */
+    for(let g=4;g>=1;g--){
+      hx.beginPath();hx.moveTo(pts[0].x,pts[0].y);
+      for(let i=1;i<cnt;i++)hx.lineTo(pts[i].x,pts[i].y);
+      hx.strokeStyle=`${p.glow},${.06/g})`;
+      hx.lineWidth=g*20;hx.lineCap='round';hx.lineJoin='round';hx.stroke();
+    }
+    /* crisp neon line */
+    hx.beginPath();hx.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<cnt;i++)hx.lineTo(pts[i].x,pts[i].y);
+    hx.strokeStyle=p.stroke;hx.lineWidth=2;hx.stroke();
+
+    /* spark at tip */
+    if(cnt>1&&cnt<pts.length&&Math.random()<.4)spawnSparks(pts[cnt-1],currentKey);
+
+    if(prog>=1)phase='pulse';
+  } else if(phase==='pulse'){
+    /* inner fill */
+    hx.beginPath();pts.forEach((pt,i)=>i===0?hx.moveTo(pt.x,pt.y):hx.lineTo(pt.x,pt.y));
+    hx.closePath();
+    let grd=hx.createRadialGradient(cx,cy-HS*.1,HS*.05,cx,cy,HS*1.1);
+    grd.addColorStop(0,`${p.fill},.12)`);grd.addColorStop(1,`${p.fill},0)`);
+    hx.fillStyle=grd;hx.fill();
+
+    /* full outline with glow */
+    for(let g=4;g>=1;g--){
+      hx.beginPath();pts.forEach((pt,i)=>i===0?hx.moveTo(pt.x,pt.y):hx.lineTo(pt.x,pt.y));
+      hx.closePath();
+      hx.strokeStyle=`${p.glow},${.06/g})`;
+      hx.lineWidth=g*20;hx.lineCap='round';hx.lineJoin='round';hx.stroke();
+    }
+    hx.beginPath();pts.forEach((pt,i)=>i===0?hx.moveTo(pt.x,pt.y):hx.lineTo(pt.x,pt.y));
+    hx.closePath();hx.strokeStyle=p.stroke;hx.lineWidth=2;hx.stroke();
+
+    /* pulse scale */
+    let pulse=1+.035*Math.sin(ts*.003);
+    hx.save();hx.translate(cx,cy);hx.scale(pulse,pulse);hx.translate(-cx,-cy);
+    /* re-draw fill on top for pulse */
+    hx.beginPath();pts.forEach((pt,i)=>i===0?hx.moveTo(pt.x,pt.y):hx.lineTo(pt.x,pt.y));
+    hx.closePath();
+    let grd2=hx.createRadialGradient(cx,cy-HS*.1,HS*.05,cx,cy,HS*1.1);
+    grd2.addColorStop(0,`${p.fill},.09)`);grd2.addColorStop(1,`${p.fill},0)`);
+    hx.fillStyle=grd2;hx.fill();
+    hx.restore();
+
+    /* floating dots */
+    let t2=ts*.001;
+    for(let i=0;i<8;i++){
+      let ang=t2+i*Math.PI/4;
+      let rx=HS*1.05,ry=HS*.82;
+      let dx=cx+rx*Math.cos(ang),dy=cy-HS*.06+ry*Math.sin(ang)*.7;
+      let sr=2+1.2*Math.sin(ts*.004+i*1.3);
+      hx.beginPath();hx.arc(dx,dy,sr,0,Math.PI*2);
+      hx.fillStyle=p.stroke;
+      hx.shadowBlur=12;hx.shadowColor=p.stroke;
+      hx.fill();hx.shadowBlur=0;
+    }
+  }
+}
+
+/* idle starfield on load */
+(function idle(){
+  if(currentKey){return}
+  gx.fillStyle='rgba(5,2,13,0.55)';gx.fillRect(0,0,W,H);
+  bgParts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.pa+=p.ps;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    let a=p.a*(0.3+0.6*Math.sin(p.pa));
+    gx.beginPath();gx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    gx.fillStyle=`rgba(120,100,200,${a*0.5})`;gx.fill();
+  });
+  requestAnimationFrame(idle);
+})();
+</script>
